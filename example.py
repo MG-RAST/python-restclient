@@ -4,7 +4,7 @@
 from restclient import RestClient
 
 
-
+# You could also pass OAuth in the constructor
 c = RestClient("http://api.metagenomics.anl.gov")
 
 print("-------------\n")
