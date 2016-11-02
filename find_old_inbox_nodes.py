@@ -24,7 +24,13 @@ for elem in c.get_stream("/node", limit=100, params=params):
     
     if  elem['expiration'] == "0001-01-01T00:00:00Z":
         size = elem['file']['size']
-        #print("%s      %s      %d" %(elem['created_on'], elem['expiration'], size))
+        if creation_month.startswith('2016') or creation_month.startswith('2015'):
+            if not creation_month.startswith('2016-1'):
+                print(elem['id'])
+                result = c.delete("/node/"+elem['id'])
+                print(result.text)
+                #print(elem)
+            #print("%s      %s      %d" %(elem['created_on'], elem['expiration'], size))
         
         total_size[creation_month] += size
         combined_size += size
