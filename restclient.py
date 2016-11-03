@@ -18,6 +18,14 @@ class RestClient:
         return r
     
     def delete(self, path="/", headers=None, params=None, debug=False):
+        # merge values
+        if self.headers != None:
+            if headers == None:
+                headers = {}
+                
+            for k, v in self.headers.items():
+                headers[k]=v
+                
         if debug:
             print("DELETE %s/%s\n" % (self.url, path))
         r = requests.delete(self.url+"/"+path, headers=headers, params=params)
