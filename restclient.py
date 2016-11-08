@@ -5,30 +5,28 @@ import requests
 
 class RestClient:
     
-    def __init__(self, url, headers=None):
+    def __init__(self, url, headers=None, auth=None):
         self.url = url
-        self.headers = headers
+        self.session = requests.session()
+        if headers:
+            self.session.headers = headers
+        if auth:
+            self.session.auth = auth
 
     def get(self, path="/", headers=None, params=None, debug=False):
         if debug:
             print("GET %s/%s\n" % (self.url, path))
-        r = requests.get(self.url+"/"+path, headers=headers, params=params)
+            
+        r = self.session.get(self.url+"/"+path, headers=headers, params=params)
         if debug:
             print("GET %s\n" % (r.url))
         return r
     
     def delete(self, path="/", headers=None, params=None, debug=False):
-        # merge values
-        if self.headers != None:
-            if headers == None:
-                headers = {}
-                
-            for k, v in self.headers.items():
-                headers[k]=v
                 
         if debug:
             print("DELETE %s/%s\n" % (self.url, path))
-        r = requests.delete(self.url+"/"+path, headers=headers, params=params)
+        r = self.session.delete(self.url+"/"+path, headers=headers, params=params)
         if debug:
             print("DELETE %s\n" % (r.url))
         return r
@@ -40,13 +38,7 @@ class RestClient:
         if params == None:
             params={}
             
-        # merge values
-        if self.headers != None:
-            if headers == None:
-                headers = {}
-                
-            for k, v in self.headers.items():
-                headers[k]=v
+        
     
         while True:
             offset = position
