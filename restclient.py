@@ -22,6 +22,15 @@ class RestClient:
             print("GET %s\n" % (r.url))
         return r
     
+    def put(self, path="/", headers=None, params=None, debug=False):
+        if debug:
+            print("PUT %s/%s\n" % (self.url, path))
+            
+        r = self.session.put(self.url+"/"+path, headers=headers, params=params)
+        if debug:
+            print("PUT %s\n" % (r.url))
+        return r
+        
     def delete(self, path="/", headers=None, params=None, debug=False):
                 
         if debug:
